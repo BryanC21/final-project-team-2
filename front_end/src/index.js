@@ -11,9 +11,13 @@ import {
   BrowserRouter,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
+
+import Home from './pages/Home';
+import Admin from './pages/Admin'
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -21,6 +25,11 @@ ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <BrowserRouter>
+        <Switch>
+          <Route path = '/' component = {Home} exact/>
+          <Route path = '/Admin' component = {Admin} exact/>
+          <Redirect from = "*" to = "/"/>
+        </Switch>
       </BrowserRouter>
     </React.StrictMode>
   </Provider>,
