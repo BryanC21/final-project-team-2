@@ -1,4 +1,4 @@
-// todoconst initState = () => ({
+// todo add image here maybe?
 const initState = () => ({
     description: '',
     type: '',

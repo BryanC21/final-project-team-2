@@ -1,4 +1,4 @@
-// todo
+// todo add image here maybe?
 export const setDescription = (description) => ({
     type: 'DESCRIPTION_SET',
     description,
