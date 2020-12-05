@@ -48,7 +48,7 @@ const Listing = (props) => {
     };
 
     return (
-        <div key={Math.random()}>
+        <div>
             <table className="listing">
                 <tbody>
                     <tr>
@@ -84,7 +84,7 @@ const Listing = (props) => {
                     <textarea id="inquiry" value={stateInquiry}
                         onChange={(e) => setStateInquiry(e.target.value)}
                     />
-                    <button className="submit" key={Math.random()} onClick={handleSubmit}>Submit</button>
+                    <button className="submit" onClick={handleSubmit}>Submit</button>
                 </div>
             )}
         </div >
