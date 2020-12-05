@@ -12,9 +12,12 @@ import {
   Switch,
   Route,
   Redirect,
+  Link,
 } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
+
+import PrivateRoute from './privateRoute';
 
 import Home from './pages/Home';
 import Admin from './pages/Admin'
@@ -31,9 +34,14 @@ ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <BrowserRouter>
+        <nav>
+          <Link to ='/'>Home</Link>
+          <Link to ='/Admin'>Admin</Link>
+          <Link to ='/Signup'>Sign Up</Link>
+        </nav>
         <Switch>
           <Route path = '/' component = {Home} exact/>
-          <Route path = '/Admin' component = {Admin} exact/>
+          <PrivateRoute path = '/Admin' component = {Admin} exact/>
           <Route path = '/Signup' component = {SignUp} exact/>
           <Redirect from = "*" to = "/"/>
         </Switch>
