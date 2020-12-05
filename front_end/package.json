@@ -20,10 +20,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:Listing": "npm test src/components/Listing.test.js -- --watchAll=false",
-    "test:ListingCreationForm": "npm test src/components/ListingCreationForm.test.js -- --watchAll=false",
-    "test:ViewListings": "npm test src/components/ViewListings.test.js -- --watchAll=false",
-    "test:Inquiries": "npm test src/components/Inquiries.test.js -- --watchAll=false",
     "lint": "eslint src/**/*.js",
     "eject": "react-scripts eject"
   },

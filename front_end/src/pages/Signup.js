@@ -1,0 +1,40 @@
+import React, {useRef} from 'react';
+import {setUser} from '../redux/actions/userActions'
+import {useDispatch} from 'react-redux'
+
+//page for Signup at /Signup 
+const SignUp = ({history}) => {
+    const dispatch = useDispatch()
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    return (
+        <div>
+            <h1>Sign Up</h1>
+            <label for="email">Email</label>
+            <input ref={emailRef} id="email" type="text" />
+            <label for="password">Password</label>
+            <input ref={passwordRef} id="password" type="password" />
+            <button onClick={async () => {
+                //checks that @ is in the emailRef and passwordRef has to be over 4 in length 
+                if (emailRef.current.value.match(/@/) && passwordRef.current.value.length > 4){
+                    await fetch('http://localhost:3001/user', {
+                        method: 'POST', 
+                        headers: {'Content-Type': 'application/json'},
+                        mode: 'cors',
+                        body: JSON.stringify({
+                            email: emailRef.current.value,
+                            password: passwordRef.current.value
+                        })
+                    })
+                    //after signing up with valid email and password sends user back to homepage
+                    dispatch(setUser(emailRef.current.value))
+                    history.push('/') 
+                }else{
+                    alert('Something is wrong')
+                }
+            }}>Submit</button>
+        </div>
+    );
+};
+
+export default SignUp;

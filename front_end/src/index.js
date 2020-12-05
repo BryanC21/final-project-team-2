@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import * as serviceWorker from './serviceWorker';
 import rootReducer from './redux/reducers/rootReducer';
 import thunk from 'redux-thunk';
@@ -18,8 +18,14 @@ import { Provider } from 'react-redux';
 
 import Home from './pages/Home';
 import Admin from './pages/Admin'
+import SignUp from './pages/Signup';
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  rootReducer, 
+  composeEnhancer(applyMiddleware(thunk))
+);
 
 ReactDOM.render(
   <Provider store={store}>
@@ -28,6 +34,7 @@ ReactDOM.render(
         <Switch>
           <Route path = '/' component = {Home} exact/>
           <Route path = '/Admin' component = {Admin} exact/>
+          <Route path = '/Signup' component = {SignUp} exact/>
           <Redirect from = "*" to = "/"/>
         </Switch>
       </BrowserRouter>

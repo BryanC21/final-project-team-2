@@ -53,22 +53,22 @@ const Listing = (props) => {
                 <tbody>
                     <tr>
                         <td>Description:
-              <div>{props.listing.description}</div>
+              <div>{props.listing && props.listing.description}</div>
                         </td>
                     </tr>
                     <tr>
                         <td>Type:
-              <div>{props.listing.type}</div>
+              <div>{props.listing && props.listing.type}</div>
                         </td>
                     </tr>
                     <tr>
                         <td>Price:$
-              <div>{props.listing.price}</div>
+              <div>{props.listing && props.listing.price}</div>
                         </td>
                     </tr>
                     <tr>
                         <td>Title:
-              <div>{props.listing.title}</div>
+              <div>{props.listing && props.listing.title}</div>
                         </td>
                     </tr>
                 </tbody>
