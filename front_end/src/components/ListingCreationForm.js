@@ -8,13 +8,13 @@ import { setDescription, setType, setPrice, setTitle, setListings } from '../red
 const ListingCreationForm = () => {
 
     const dispatch = useDispatch();
-    const description = useSelector(state => state.listingReducer.description);
-    const type = useSelector(state => state.listingReducer.type);
-    const price = useSelector(state => state.listingReducer.price);
-    const title = useSelector(state => state.listingReducer.title);
+    const description = useSelector(state => state.listing.description);
+    const type = useSelector(state => state.listing.type);
+    const price = useSelector(state => state.listing.price);
+    const title = useSelector(state => state.listing.title);
 
     const handleListingSubmit = () => {
-        axios.post('/api/createListing', {
+        axios.post('http://localhost:3001/api/createListing', {
             description: description,
             type: type,
             price: price,
@@ -26,7 +26,7 @@ const ListingCreationForm = () => {
             .catch(function (error) {
                 console.log(error);
             });
-        axios.get('/api/viewListings')
+        axios.get('http://localhost:3001/api/viewListings')
             .then(function (response) {
                 dispatch(setListings(response.data.items));
                 //console.log(response);

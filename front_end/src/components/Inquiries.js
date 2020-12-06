@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const Inquiries = () => {
 
-    const inquiry = useSelector(state => state.inquiryReducer.inquiries);
+    const inquiry = useSelector(state => state.inquiry.inquiries);
     //console.log(inquiry)
     const displayInquiry = (inquiry, id) => {
         //console.log(inquiry)

@@ -1,10 +1,41 @@
-// todo, need an image endpoint
-const express = require("express");
+//index for backend
+// const redis = require('redis')
+const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser')
+const cors = require('cors')
+// const client = redis.createClient({path: 'redis-13037.c60.us-west-1-2.ec2.cloud.redislabs.com:13037'})
+
+// client.on('connect', () => {console.log('Connected to Redis')})
+
+const User = require('../models/user')
 const app = express();
+app.use(bodyParser.json()); //parses into json
+app.use(bodyParser.urlencoded({extended:false }))
+app.use(cors());
 
-app.use(express.json());
+//connects mongose to account set up on mongodb 
+mongoose.connect('mongodb+srv://andres12:Clubhi!12@cluster0.dotkx.mongodb.net/FinalProj?retryWrites=true&w=majority', {useNewUrlParser: true});
 
-module.exports = app;
+//sends info from signup page to /user
+app.post('/user', (req, res) => {
+    //makes instance into a user model 
+    const instance = new User()
+    console.log(req.body)
+    instance.email = req.body.email
+    instance.password = req.body.password
+    instance.isAdmin = false
+    instance.save()
+    res.send(201)
+})
+app.post('/user/login', async (req, res) => {
+    const user = await User.find({email: req.body.email, password: req.body.password});
+    if (user.length > 0){
+        res.json(user[0])
+    }else{
+        res.send(400);
+    }
+})
 
 let listings = [];
 let inquiriesList = [];
@@ -113,7 +144,6 @@ app.get(`*`, (req, res) => {
     });
 });
 
-if (require.main === module) {
-    console.log('Starting app');
-    app.listen(4000);
-};
+
+
+app.listen(3001, () => {console.log('Server running on 3001')})

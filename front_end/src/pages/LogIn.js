@@ -3,14 +3,14 @@ import {setUser} from '../redux/actions/userActions'
 import {useDispatch} from 'react-redux'
 import Cookies from 'js-cookie'
 
-//page for Signup at /Signup 
-const SignUp = ({history}) => {
+
+const LogIn = ({history}) => {
     const dispatch = useDispatch()
     const emailRef = useRef()
     const passwordRef = useRef()
     return (
         <div>
-            <h1>Sign Up</h1>
+            <h1>Login</h1>
             <label for="email">Email</label>
             <input ref={emailRef} id="email" type="text" />
             <label for="password">Password</label>
@@ -18,7 +18,7 @@ const SignUp = ({history}) => {
             <button onClick={async () => {
                 //checks that @ is in the emailRef and passwordRef has to be over 4 in length 
                 if (emailRef.current.value.match(/@/) && passwordRef.current.value.length > 4){
-                    await fetch('http://localhost:3001/user', {
+                    const response = await fetch('http://localhost:3001/user/login', {
                         method: 'POST', 
                         headers: {'Content-Type': 'application/json'},
                         mode: 'cors',
@@ -27,10 +27,17 @@ const SignUp = ({history}) => {
                             password: passwordRef.current.value
                         })
                     })
-                    //after signing up with valid email and password sends user back to homepage
-                    dispatch(setUser(emailRef.current.value))
-                    Cookies.set('userEmail', emailRef.current.value)
+                    if (response.ok){
+                    const parsedRes = await response.json()
+                    console.log(parsedRes)
+                        //after signing up with valid email and password sends user back to homepage
+                    dispatch(setUser(parsedRes.email, parsedRes.isAdmin))
+                    Cookies.set('userEmail', parsedRes.email)
+                    Cookies.set('isAdmin', parsedRes.isAdmin)
                     history.push('/') 
+                    }else {
+                        alert('Wrong login credentials')
+                    }
                 }else{
                     alert('Something is wrong')
                 }
@@ -39,4 +46,4 @@ const SignUp = ({history}) => {
     );
 };
 
-export default SignUp;
+export default LogIn;

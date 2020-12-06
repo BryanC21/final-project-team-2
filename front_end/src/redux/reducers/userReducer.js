@@ -1,13 +1,23 @@
+import Cookies from 'js-cookie'
+
 const initState = () => ({
-    email: null,
+    email: Cookies.get('userEmail') || null,
+    isAdmin: Cookies.get('isAdmin') || false
 })
 
-const inquiryReducer = (state = initState(), action) => {
+const userReducer = (state = initState(), action) => {
     switch (action.type) {
         case 'USER_SET':
             return {
                 ...state,
-                email: action.email
+                email: action.email,
+                isAdmin: action.isAdmin
+            }
+        case 'USER_LOGOUT':
+            return {
+                ...state,
+                email: null,
+                isAdmin: false
             }
         default:
             // we don't want to modify state, ignore action
@@ -16,4 +26,4 @@ const inquiryReducer = (state = initState(), action) => {
 };
 
 
-export default inquiryReducer;
+export default userReducer;

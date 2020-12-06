@@ -8,10 +8,10 @@ import Listing from './Listing';
 const ViewListings = (props) => {
 
     const dispatch = useDispatch();
-    const listings = useSelector(state => state.listingReducer.listings);
+    const listings = useSelector(state => state.listing.listings);
 
     useEffect(() => {
-        axios.get('/api/viewListings')
+        axios.get('http://localhost:3001/api/viewListings')
             .then(function (response) {
                 dispatch(setListings(response.data.items));
                 //console.log(response);
