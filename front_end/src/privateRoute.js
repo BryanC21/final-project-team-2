@@ -4,13 +4,11 @@ import React from "react";
 
 const PrivateRoute = (props) => {
     //use useSelector here, state 
-    let isLoggedIn = true;
-
-    React.useEffect(() => {
-       //axios or fetch data here and set the state
-    },[])
-
-    if(isLoggedIn){
+    const isAdmin = useSelector(state => state.user.isAdmin);
+    // React.useEffect(() => {
+    //    //axios or fetch data here and set the state
+    // },[])
+    if(isAdmin){
         return (
             <div>
                 <Route path = {props.path} component = {props.component}/>
@@ -19,7 +17,7 @@ const PrivateRoute = (props) => {
     }
     else{
         return (
-            <Redirect to = "/Signup" />
+            <Redirect to = "/LogIn" />
         );
     }
 };
