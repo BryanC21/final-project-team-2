@@ -81,7 +81,7 @@ app.get(`/api/viewListings`, (req, res) => {
     });
 });
 
-app.get(`/api/deleteListings`, (req, res) => {
+app.get(`/api/deleteListing`, (req, res) => {
     let listingsId = req.query.id;
     let newList = [];
     for (let i = 0; i < listings.length; i++) {
@@ -146,4 +146,4 @@ app.get(`*`, (req, res) => {
 
 
 
-app.listen(3001, () => {console.log('Server running on 3001')})
+app.listen(4000, () => {console.log('Server running on 4000')})

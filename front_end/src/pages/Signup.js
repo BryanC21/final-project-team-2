@@ -18,7 +18,7 @@ const SignUp = ({history}) => {
             <button onClick={async () => {
                 //checks that @ is in the emailRef and passwordRef has to be over 4 in length 
                 if (emailRef.current.value.match(/@/) && passwordRef.current.value.length > 4){
-                    await fetch('http://localhost:3001/user', {
+                    await fetch('http://localhost:4000/user', {
                         method: 'POST', 
                         headers: {'Content-Type': 'application/json'},
                         mode: 'cors',

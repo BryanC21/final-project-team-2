@@ -14,7 +14,7 @@ const ListingCreationForm = () => {
     const title = useSelector(state => state.listing.title);
 
     const handleListingSubmit = () => {
-        axios.post('http://localhost:3001/api/createListing', {
+        axios.post('/api/createListing', {
             description: description,
             type: type,
             price: price,
@@ -26,7 +26,7 @@ const ListingCreationForm = () => {
             .catch(function (error) {
                 console.log(error);
             });
-        axios.get('http://localhost:3001/api/viewListings')
+        axios.get('/api/viewListings')
             .then(function (response) {
                 dispatch(setListings(response.data.items));
                 //console.log(response);

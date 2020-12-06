@@ -11,7 +11,7 @@ const ViewListings = (props) => {
     const listings = useSelector(state => state.listing.listings);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/viewListings')
+        axios.get('/api/viewListings')
             .then(function (response) {
                 dispatch(setListings(response.data.items));
                 //console.log(response);

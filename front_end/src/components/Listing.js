@@ -12,7 +12,7 @@ const Listing = (props) => {
     //const test = useSelector(state => state.inquiryReducer.inquiries);
 
     const handleDelete = () => {
-        axios.get(`http://localhost:3001/api/deleteListing?id=${props.listing.id}`);
+        axios.get(`/api/deleteListing?id=${props.listing.id}`);
         console.log('delete was clicked');
         /*axios.get('/api/viewListings')
           .then(function (response) {
@@ -24,7 +24,7 @@ const Listing = (props) => {
           });*/
     };
     const handleView = () => {
-        axios.get(`http://localhost:3001/api/getInquiries?listingId=${props.listing.id}`)
+        axios.get(`/api/getInquiries?listingId=${props.listing.id}`)
             .then(function (response) {
                 //console.log(response.data.inquiries)
                 dispatch(setInquiry(response.data.inquiries));
@@ -36,7 +36,7 @@ const Listing = (props) => {
             });
     };
     const handleSubmit = () => {
-        axios.post(`http://localhost:3001/api/makeInquiry?listingId=${props.listing.id}`, {
+        axios.post(`/api/makeInquiry?listingId=${props.listing.id}`, {
             message: stateInquiry
         })
             .then(function (response) {
