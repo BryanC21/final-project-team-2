@@ -12,13 +12,16 @@ const ListingCreationForm = () => {
     const type = useSelector(state => state.listing.type);
     const price = useSelector(state => state.listing.price);
     const title = useSelector(state => state.listing.title);
+    const userId = useSelector(state => state.user.userId);
 
     const handleListingSubmit = () => {
         axios.post('/api/createListing', {
             description: description,
             type: type,
             price: price,
-            title: title
+            title: title,
+            id: (Date.now().toString(35) + Math.random().toString(36).substring(2)).substring(7,15),
+            userId: userId
         })
             .then(function (response) {
                 console.log(response);

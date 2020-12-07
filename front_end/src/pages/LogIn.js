@@ -31,9 +31,10 @@ const LogIn = ({history}) => {
                     const parsedRes = await response.json()
                     console.log(parsedRes)
                         //after signing up with valid email and password sends user back to homepage
-                    dispatch(setUser(parsedRes.email, parsedRes.isAdmin))
+                    dispatch(setUser(parsedRes.email, parsedRes.isAdmin, parsedRes.userId))
                     Cookies.set('userEmail', parsedRes.email)
                     Cookies.set('isAdmin', parsedRes.isAdmin)
+                    Cookies.set('userId', parsedRes.userId)
                     history.push('/') 
                     }else {
                         alert('Wrong login credentials')

@@ -21,6 +21,7 @@ const dispatch = useDispatch();
               <button onClick={() => {
                 Cookies.remove('userEmail')
                 Cookies.remove('isAdmin')
+                Cookies.remove('userId')
                 dispatch(logoutUser())
               }}>Log Out </button>
               <div>

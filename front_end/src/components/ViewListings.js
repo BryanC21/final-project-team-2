@@ -9,12 +9,12 @@ const ViewListings = (props) => {
 
     const dispatch = useDispatch();
     const listings = useSelector(state => state.listing.listings);
-
+    console.log(listings);
     useEffect(() => {
         axios.get('/api/viewListings')
             .then(function (response) {
                 dispatch(setListings(response.data.items));
-                //console.log(response);
+                console.log(response);
             })
             .catch(function (error) {
                 console.log(error);

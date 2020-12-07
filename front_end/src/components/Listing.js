@@ -2,7 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setInquiry } from '../redux/actions/inquiryActions';
 
 const Listing = (props) => {
@@ -10,10 +10,16 @@ const Listing = (props) => {
     const dispatch = useDispatch();
     const [stateInquiry, setStateInquiry] = React.useState('');
     //const test = useSelector(state => state.inquiryReducer.inquiries);
+    const userId = useSelector(state => state.user.userId);
+    //console.log(props);
 
     const handleDelete = () => {
-        axios.get(`/api/deleteListing?id=${props.listing.id}`);
-        console.log('delete was clicked');
+        if(userId === props.listing.userId){
+            axios.get(`/api/deleteListing?id=${props.listing.id}`);
+            console.log('delete was clicked');
+        }else{
+            console.log('userId does not match')
+        }
         /*axios.get('/api/viewListings')
           .then(function (response) {
             dispatch(setListings(response.data.items))

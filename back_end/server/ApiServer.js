@@ -24,7 +24,8 @@ app.post('/user', (req, res) => {
     console.log(req.body)
     instance.email = req.body.email
     instance.password = req.body.password
-    instance.isAdmin = false
+    instance.isAdmin = true
+    instance.userId = req.body.userId
     instance.save()
     res.send(201)
 })
@@ -43,8 +44,9 @@ let inquiriesList = [];
 let num = 0;
 
 app.post(`/api/createListing`, (req, res) => {
-
-    req.body.id = 'emerson' + num++;
+    if(req.body.id === null){
+        req.body.id = 'emerson' + num++;
+    }
     listings.push(req.body);
 
     res.send({

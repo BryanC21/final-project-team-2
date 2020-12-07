@@ -1,7 +1,8 @@
-export const setUser = (email, isAdmin = false) => ({
+export const setUser = (email, isAdmin = false, userId) => ({
     type: 'USER_SET',
     email,
-    isAdmin
+    isAdmin,
+    userId,
 });
 
 export const logoutUser = () => ({

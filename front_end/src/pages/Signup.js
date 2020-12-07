@@ -18,18 +18,23 @@ const SignUp = ({history}) => {
             <button onClick={async () => {
                 //checks that @ is in the emailRef and passwordRef has to be over 4 in length 
                 if (emailRef.current.value.match(/@/) && passwordRef.current.value.length > 4){
+                    const tempId = (Date.now().toString(35) + Math.random().toString(36).substring(2)).substring(7,15);
+                    console.log(tempId)
                     await fetch('http://localhost:4000/user', {
                         method: 'POST', 
                         headers: {'Content-Type': 'application/json'},
                         mode: 'cors',
                         body: JSON.stringify({
                             email: emailRef.current.value,
-                            password: passwordRef.current.value
+                            password: passwordRef.current.value,
+                            userId: tempId
                         })
                     })
                     //after signing up with valid email and password sends user back to homepage
                     dispatch(setUser(emailRef.current.value))
                     Cookies.set('userEmail', emailRef.current.value)
+                    Cookies.set('isAdmin', true)
+                    Cookies.set('userId', tempId)
                     history.push('/') 
                 }else{
                     alert('Something is wrong')
