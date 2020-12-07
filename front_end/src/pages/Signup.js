@@ -31,7 +31,7 @@ const SignUp = ({history}) => {
                         })
                     })
                     //after signing up with valid email and password sends user back to homepage
-                    dispatch(setUser(emailRef.current.value))
+                    dispatch(setUser(emailRef.current.value, true, tempId))
                     Cookies.set('userEmail', emailRef.current.value)
                     Cookies.set('isAdmin', true)
                     Cookies.set('userId', tempId)

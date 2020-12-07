@@ -1,4 +1,4 @@
-export const setUser = (email, isAdmin = false, userId) => ({
+export const setUser = (email, isAdmin, userId) => ({
     type: 'USER_SET',
     email,
     isAdmin,

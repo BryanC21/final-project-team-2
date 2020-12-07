@@ -11,7 +11,7 @@ const Admin = () => {
             <h1>Admin</h1>
             <ListingCreationForm />
             <Inquiries />
-            <ViewListings />
+            <ViewListings userMode = {false}/>
         </div>
     );
 };
