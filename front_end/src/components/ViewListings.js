@@ -9,11 +9,16 @@ const ViewListings = (props) => {
 
     const dispatch = useDispatch();
     const listings = useSelector(state => state.listing.listings);
+    const userId = useSelector(state => state.user.userId);
     //console.log(listings);
     useEffect(() => {
-        axios.get('/api/viewListings')
+        let apiRoute = '/api/viewListings';
+        if(! props.userMode){
+            apiRoute += `?userId=${userId}`
+        }
+        axios.get(apiRoute)
             .then(function (response) {
-                dispatch(setListings(response.data.items));
+                dispatch(setListings(response.data.listings));
                 console.log(response);
             })
             .catch(function (error) {
@@ -32,7 +37,9 @@ const ViewListings = (props) => {
 
     return (
         <div>
-            <h1>ViewListings</h1>
+            <h1>
+                {props.userMode ? (<>All Listings</>) : (<>Your Listings</>)}
+            </h1>
             {listings.map(items => createListingsElements(items))}
         </div>
     );

@@ -9,15 +9,12 @@ import {Link} from 'react-router-dom'
 const Nav = () => {
 const dispatch = useDispatch();
     const userEmail = useSelector(state => state.user.email);
-    const isAdmin = useSelector(state => state.user.isAdmin);
     return (
         <nav>
           <Link to ='/'>Home</Link>
-          {isAdmin && (
-             <Link to ='/Admin'>Admin</Link> 
-          )}
           {userEmail ? (
               <>  
+              <Link to ='/Admin'>Admin</Link> 
               <button onClick={() => {
                 Cookies.remove('userEmail')
                 Cookies.remove('isAdmin')

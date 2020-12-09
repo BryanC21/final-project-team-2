@@ -9,6 +9,9 @@ const cors = require('cors')
 // client.on('connect', () => {console.log('Connected to Redis')})
 
 const User = require('../models/user')
+const Inquiry = require('../models/inquiry')
+const Listing = require('../models/listing')
+
 const app = express();
 app.use(bodyParser.json()); //parses into json
 app.use(bodyParser.urlencoded({extended:false }))
@@ -29,6 +32,8 @@ app.post('/user', (req, res) => {
     instance.save()
     res.send(201)
 })
+
+
 app.post('/user/login', async (req, res) => {
     const user = await User.find({email: req.body.email, password: req.body.password});
     if (user.length > 0){
@@ -38,23 +43,16 @@ app.post('/user/login', async (req, res) => {
     }
 })
 
-let listings = [];
-let inquiriesList = [];
-
-let num = 0;
-
 app.post(`/api/createListing`, (req, res) => {
-    if(req.body.id === null){
-        req.body.id = 'emerson' + num++;
-    }
-    listings.push(req.body);
-
-    res.send({
-        success: true,
-        items: listings,
-        inquiries: inquiriesList,
-        errorCode: 200
-    });
+    const instance = new Listing()
+    console.log(req.body)
+    instance.description = req.body.description
+    instance.title = req.body.title
+    instance.price =req.body.price
+    instance.userId = req.body.userId
+    instance.type = req.body.type
+    instance.save()
+    res.send(201)
 });
 
 /*app.get(`/api/viewListings`, (req, res) => {
@@ -66,73 +64,46 @@ app.post(`/api/createListing`, (req, res) => {
   });
 }); */
 
-app.get(`/api/viewListings`, (req, res) => {
-    let listingsType = req.query.type;
-    let retList = [];
-    for (let i = 0; i < listings.length; i++) {
-        if (listings[i].type == listingsType) {
-            retList.push(listings[i]);
-        }
+app.get(`/api/viewListings`, async (req, res) => {
+    const findParams = {}
+    console.log(req.query)
+    if(req.query.userId){
+        findParams.userId = req.query.userId;
     }
-
+    const listings = await Listing.find(findParams);
     res.send({
         success: true,
-        items: listingsType ? retList : listings,
-        inquiries: inquiriesList,
+        listings: listings,
         errorCode: 200
     });
 });
 
-app.get(`/api/deleteListing`, (req, res) => {
-    let listingsId = req.query.id;
-    let newList = [];
-    for (let i = 0; i < listings.length; i++) {
-        if (listings[i].id != listingsId) {
-            newList.push(listings[i]);
-        }
-    }
-    listings = newList;
+app.get(`/api/deleteListing`, async (req, res) => {
+    await Listing.deleteOne({id: req.params.id});
     res.send({
         success: true,
-        items: listings,
-        inquiries: inquiriesList,
-        errorCode: 200
+        errorCode: 204
     });
 });
 
 
 app.post(`/api/makeInquiry`, (req, res) => {
-    let myQueryID = req.query.listingId;
-    let myMsg = req.body.message;
-
-    inquiriesList.push(
-        {
-            id: myQueryID,
-            msg: myMsg
-        }
-    );
-
-    res.send({
-        success: true,
-        items: listings,
-        inquiries: inquiriesList,
-        errorCode: 200
-    });
+    const instance = new Inquiry()
+    console.log(req.body)
+    instance.message = req.body.message
+    instance.listingId =req.body.listingId
+    instance.userId = req.body.userId
+    instance.save()
+    res.send(201)
 });
 
-app.get(`/api/getInquiries`, (req, res) => {
-    let myListId = req.query.listingId;
-    let retList = [];
-    for (let i = 0; i < inquiriesList.length; i++) {
-        if (inquiriesList[i].id == myListId) {
-            retList.push(inquiriesList[i]);
-        }
-    }
+app.get(`/api/getInquiries`, async (req, res) => {
+    console.log(req.query.listingId)
+    const inquiries = await Inquiry.find({listingId: req.query.listingId})
 
     res.send({
         success: true,
-        items: listings,
-        inquiries: retList,
+        inquiries: inquiries,
         errorCode: 200
     });
 });

@@ -15,7 +15,7 @@ const Listing = (props) => {
 
     const handleDelete = () => {
         if(userId === props.listing.userId){
-            axios.get(`/api/deleteListing?id=${props.listing.id}`);
+            axios.get(`/api/deleteListing?id=${props.listing._id}`);
             console.log('delete was clicked');
         }else{
             console.log('userId does not match')
@@ -30,7 +30,7 @@ const Listing = (props) => {
           });*/
     };
     const handleView = () => {
-        axios.get(`/api/getInquiries?listingId=${props.listing.id}`)
+        axios.get(`/api/getInquiries?listingId=${props.listing._id}`)
             .then(function (response) {
                 //console.log(response.data.inquiries)
                 dispatch(setInquiry(response.data.inquiries));
@@ -42,8 +42,10 @@ const Listing = (props) => {
             });
     };
     const handleSubmit = () => {
-        axios.post(`/api/makeInquiry?listingId=${props.listing.id}`, {
-            message: stateInquiry
+        axios.post(`/api/makeInquiry`, {
+            message: stateInquiry,
+            listingId: props.listing._id,
+            userId: userId
         })
             .then(function (response) {
                 console.log(response);

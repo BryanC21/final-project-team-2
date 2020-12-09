@@ -14,13 +14,12 @@ const ListingCreationForm = () => {
     const title = useSelector(state => state.listing.title);
     const userId = useSelector(state => state.user.userId);
 
-    const handleListingSubmit = () => {
-        axios.post('/api/createListing', {
+    const handleListingSubmit = async () => {
+        await axios.post('/api/createListing', {
             description: description,
             type: type,
             price: price,
             title: title,
-            id: (Date.now().toString(35) + Math.random().toString(36).substring(2)).substring(7,15),
             userId: userId
         })
             .then(function (response) {
@@ -29,9 +28,9 @@ const ListingCreationForm = () => {
             .catch(function (error) {
                 console.log(error);
             });
-        axios.get('/api/viewListings')
+        axios.get(`/api/viewListings?userId=${userId}`)
             .then(function (response) {
-                dispatch(setListings(response.data.items));
+                dispatch(setListings(response.data.listings));
                 //console.log(response);
             })
             .catch(function (error) {
