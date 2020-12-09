@@ -79,7 +79,8 @@ app.get(`/api/viewListings`, async (req, res) => {
 });
 
 app.get(`/api/deleteListing`, async (req, res) => {
-    await Listing.deleteOne({id: req.params.id});
+    console.log(req.query.id);
+    await Listing.deleteOne({'_id': req.query.id});
     res.send({
         success: true,
         errorCode: 204
