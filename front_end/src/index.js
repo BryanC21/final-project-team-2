@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import rootReducer from './redux/reducers/rootReducer';
 import thunk from 'redux-thunk';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import {
@@ -22,7 +23,7 @@ import PrivateRoute from './privateRoute';
 import Home from './pages/Home';
 import Admin from './pages/Admin'
 import SignUp from './pages/Signup';
-import Nav from './components/Nav';
+import NavBar from './components/Nav';
 import LogIn from './pages/LogIn'
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -36,7 +37,7 @@ ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <BrowserRouter>
-        <Nav/>
+        <NavBar/>
         <Switch>
           <Route path = '/' component = {Home} exact/>
           <PrivateRoute path = '/Admin' component = {Admin} exact/>

@@ -7,12 +7,14 @@ import Inquiries from '../components/Inquiries';
 
 const Admin = () => {
     return (
-        <div>
-            <h1>Admin</h1>
-            <ListingCreationForm />
-            <Inquiries />
-            <ViewListings userMode = {false}/>
-        </div>
+      <div>
+        <center>
+          <h1>Admin</h1>
+        </center>
+        <ListingCreationForm />
+        <Inquiries />
+        <ViewListings userMode={false} />
+      </div>
     );
 };
 
