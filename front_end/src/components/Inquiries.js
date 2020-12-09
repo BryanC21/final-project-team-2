@@ -17,7 +17,10 @@ const Inquiries = () => {
 
     return (
         <div>
-            {inquiry.map((inquiries, num) => displayInquiry(inquiries.msg, num))}
+            {inquiry.map((inquiries, num) => {
+                //console.log( "Testing inquries " + inquiries.message);
+                return displayInquiry(inquiries.message, num);
+                })}
         </div>
     );
 };

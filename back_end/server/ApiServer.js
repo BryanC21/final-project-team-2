@@ -99,7 +99,7 @@ app.post(`/api/makeInquiry`, (req, res) => {
 });
 
 app.get(`/api/getInquiries`, async (req, res) => {
-    console.log(req.query.listingId)
+    //console.log("Trying to get Inquiries : "+ req.query.listingId)
     const inquiries = await Inquiry.find({listingId: req.query.listingId})
 
     res.send({
