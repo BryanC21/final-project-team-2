@@ -19,6 +19,7 @@ const dispatch = useDispatch();
                 Cookies.remove('userEmail')
                 Cookies.remove('isAdmin')
                 Cookies.remove('userId')
+                Cookies.remove('isLoggedIn')
                 dispatch(logoutUser())
               }}>Log Out </button>
               <div>
