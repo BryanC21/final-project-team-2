@@ -1,0 +1,13 @@
+*** note: may need to include sudo before every command ***
+
+docker build -f ./docker_files/front_end.Dockerfile -t front_end --no-cache .
+docker run -t -d -p 3000:3000 front_end
+
+
+docker build -f ./docker_files/back_end.Dockerfile -t back_end --no-cache .
+docker run -t -d -p 4000:4000 back_end
+
+docker build -f ./docker_files/websocket.Dockerfile -t websocket --no-cache .
+docker run -t -d -p 8080:8080 websocket
+
+docker container stop <container id>
