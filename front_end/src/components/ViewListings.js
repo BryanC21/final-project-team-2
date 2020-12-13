@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setListings } from '../redux/actions/listingActions';
 import Listing from './Listing';
+import {setRefreshListingWS} from '../websockets'
 
 const ViewListings = (props) => {
   const dispatch = useDispatch();
   const listings = useSelector((state) => state.listing.listings);
   const userId = useSelector((state) => state.user.userId);
+  const [refreshListing, setRefreshListing] = useState(false); 
   //console.log(listings);
+  useEffect(() => {
+    setRefreshListingWS(setRefreshListing)
+  },[])
   useEffect(() => {
     let apiRoute = '/api/viewListings';
     if (!props.userMode) {
@@ -20,11 +25,14 @@ const ViewListings = (props) => {
       .then(function (response) {
         dispatch(setListings(response.data.listings));
         console.log(response);
+        setRefreshListing(false)
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, [refreshListing]);
+
+  console.log(refreshListing)
 
   const createListingsElements = (listing) => {
     return <Listing listing={listing} userMode={props.userMode} />;

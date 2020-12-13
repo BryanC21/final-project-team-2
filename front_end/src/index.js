@@ -9,6 +9,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
+
 import {
   BrowserRouter,
   Switch,
@@ -25,9 +26,11 @@ import Admin from './pages/Admin'
 import SignUp from './pages/Signup';
 import NavBar from './components/Nav';
 import LogIn from './pages/LogIn'
+import {initWS} from './websockets'
+
+initWS();
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
 const store = createStore(
   rootReducer, 
   composeEnhancer(applyMiddleware(thunk))

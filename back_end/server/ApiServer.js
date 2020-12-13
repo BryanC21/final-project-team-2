@@ -1,12 +1,45 @@
 //index for backend
-// const redis = require('redis')
+const redis = require('redis')
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors')
-// const client = redis.createClient({path: 'redis-13037.c60.us-west-1-2.ec2.cloud.redislabs.com:13037'})
+const client = redis.createClient({host: 'redis-13037.c60.us-west-1-2.ec2.cloud.redislabs.com', port: 13037})
+
+client.auth('GHSahP3jPWAUKoW459YE71UjkMzhRz6O', function(err, response){
+    client.publish('testPublish', 'hello');
+});
 
 // client.on('connect', () => {console.log('Connected to Redis')})
+
+/* var redis = require(‘redis’);
+  var redisHost = ‘redis.us-east-1-1.ec2.cloud.redislabs.com’;
+var redisPort = process.argv[3] || 12345;
+var redisAuth = ‘thisismypassword’;
+  var client = redis.createClient ({
+port : redisPort,
+host : redisHost
+});
+ 
+client.auth(redisAuth, function(err, response){
+if(err){
+throw err;
+}
+});
+ 
+client.set(‘foo’,’bar’);
+client.get(‘foo’, function(err, response){
+if(err) {
+throw err;
+}else{
+console.log(response);
+}
+});
+
+*/
+
+
+
 
 const User = require('../models/user')
 const Inquiry = require('../models/inquiry')
@@ -52,6 +85,7 @@ app.post(`/api/createListing`, (req, res) => {
     instance.userId = req.body.userId
     instance.type = req.body.type
     instance.save()
+    client.publish('updateListing', '');
     res.send(201)
 });
 
@@ -81,6 +115,7 @@ app.get(`/api/viewListings`, async (req, res) => {
 app.get(`/api/deleteListing`, async (req, res) => {
     console.log(req.query.id);
     await Listing.deleteOne({'_id': req.query.id});
+    client.publish('updateListing', '');
     res.send({
         success: true,
         errorCode: 204
