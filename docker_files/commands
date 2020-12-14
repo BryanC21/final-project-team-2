@@ -1,15 +1,15 @@
 *** note: may need to include sudo before every command
     also run these commands in the root folder ***
 
-*** working- websocket container, need to npm start and node apiserver in terminal ***
-*** in progress- figuring out front/back end ***
+*** working- websocket container, backend api server, need to npm start in terminal ***
+*** in progress- figuring out front end ***
 
 
-*** front end (takes care of npm start) *** ----- WIP
+*** front end (takes care of npm start) *** --- WIP
 docker build -f ./docker_files/front_end.Dockerfile -t front_end --no-cache .
 docker run -t -d -p 3000:3000 front_end
 
-*** back end (takes care of node apiserver) *** ---- WIP
+*** back end (takes care of node apiserver) *** --- works
 docker build -f ./docker_files/back_end.Dockerfile -t back_end --no-cache .
 docker run -t -d -p 4000:4000 back_end
 

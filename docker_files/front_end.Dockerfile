@@ -1,7 +1,9 @@
-FROM node:15.4.0-alpine3.10
+FROM node:10-alpine
 
 # root dir
 WORKDIR /main 
+
+ENV PATH /main/node_modules/.bin:$PATH
 
 # copies contents of front end
 COPY ./front_end/public /main/public
