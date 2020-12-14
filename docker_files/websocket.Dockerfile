@@ -1,4 +1,4 @@
-FROM node:15.4.0-alpine3.10
+FROM node:10-alpine
 
 # root dir
 WORKDIR /main 
