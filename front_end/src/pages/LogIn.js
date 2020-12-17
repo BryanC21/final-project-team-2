@@ -43,7 +43,7 @@ const LogIn = ({ history }) => {
                         passwordRef.current.value.length > 4
                       ) {
                         const response = await fetch(
-                          'http://localhost:4000/user/login',
+                          '/user/login',
                           {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },

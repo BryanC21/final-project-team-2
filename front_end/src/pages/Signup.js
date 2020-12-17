@@ -47,7 +47,7 @@ const SignUp = ({ history }) => {
                           Math.random().toString(36).substring(2)
                         ).substring(7, 15);
                         console.log(tempId);
-                        await fetch('http://localhost:4000/user', {
+                        await fetch('/user', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
                           mode: 'cors',

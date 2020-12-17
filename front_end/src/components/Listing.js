@@ -28,25 +28,14 @@ const Listing = (props) => {
             //console.log(error);
           });*/
   };
-  const handleView = () => {
-    axios
-      .get(`/api/getInquiries?listingId=${props.listing._id}`)
-      .then(function (response) {
-        //console.log(response.data.inquiries)
-        dispatch(setInquiry(response.data.inquiries));
-        //console.log(test)
-        //console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+
   const handleSubmit = () => {
     axios
       .post(`/api/makeInquiry`, {
         message: stateInquiry,
         listingId: props.listing._id,
         userId: userId,
+        fromOwner: false
       })
       .then(function (response) {
         console.log(response);
@@ -84,9 +73,6 @@ const Listing = (props) => {
             <tr>
               <th>
                 <button onClick={handleDelete}>Delete</button>
-              </th>
-              <th>
-                <button onClick={handleView}>View Inquiries</button>
               </th>
             </tr>
           </tbody>
