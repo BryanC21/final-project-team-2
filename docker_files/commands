@@ -7,7 +7,7 @@
 
 *** front end (takes care of npm start) *** --- WIP
 docker build -f ./docker_files/front_end.Dockerfile -t front_end --no-cache .
-docker run -t -d -p 3000:3000 front_end
+docker run -t -d -p 3000:4000 front_end
 
 *** back end (takes care of node apiserver) *** --- works
 docker build -f ./docker_files/back_end.Dockerfile -t back_end --no-cache .
