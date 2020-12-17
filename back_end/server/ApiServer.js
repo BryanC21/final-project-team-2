@@ -1,6 +1,9 @@
 //index for backend
 const redis = require('redis')
 const mongoose = require('mongoose');
+const User = require('../models/user')
+const Inquiry = require('../models/inquiry')
+const Listing = require('../models/listing')
 const express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -10,40 +13,7 @@ client.auth('GHSahP3jPWAUKoW459YE71UjkMzhRz6O', function(err, response){
     client.publish('testPublish', 'hello');
 });
 
-// client.on('connect', () => {console.log('Connected to Redis')})
 
-/* var redis = require(‘redis’);
-  var redisHost = ‘redis.us-east-1-1.ec2.cloud.redislabs.com’;
-var redisPort = process.argv[3] || 12345;
-var redisAuth = ‘thisismypassword’;
-  var client = redis.createClient ({
-port : redisPort,
-host : redisHost
-});
- 
-client.auth(redisAuth, function(err, response){
-if(err){
-throw err;
-}
-});
- 
-client.set(‘foo’,’bar’);
-client.get(‘foo’, function(err, response){
-if(err) {
-throw err;
-}else{
-console.log(response);
-}
-});
-
-*/
-
-
-
-
-const User = require('../models/user')
-const Inquiry = require('../models/inquiry')
-const Listing = require('../models/listing')
 
 const app = express();
 app.use(bodyParser.json()); //parses into json
@@ -84,19 +54,16 @@ app.post(`/api/createListing`, (req, res) => {
     instance.price =req.body.price
     instance.userId = req.body.userId
     instance.type = req.body.type
-    instance.save()
-    client.publish('updateListing', '');
-    res.send(201)
+    instance.save((error, listing) => {
+        if(error){
+            res.send(400)
+        }else {
+            client.publish('updateListing', JSON.stringify({type: 'updateListing'}));
+            res.send(201)
+        }
+    })
 });
 
-/*app.get(`/api/viewListings`, (req, res) => {
-  res.send({
-    success: true,
-    items: listings,
-    inquiries: [],
-    errorCode: 200
-  });
-}); */
 
 app.get(`/api/viewListings`, async (req, res) => {
     const findParams = {}
@@ -115,7 +82,7 @@ app.get(`/api/viewListings`, async (req, res) => {
 app.get(`/api/deleteListing`, async (req, res) => {
     console.log(req.query.id);
     await Listing.deleteOne({'_id': req.query.id});
-    client.publish('updateListing', '');
+    client.publish('updateListing', JSON.stringify({type: 'updateListing'}));
     res.send({
         success: true,
         errorCode: 204
@@ -123,26 +90,45 @@ app.get(`/api/deleteListing`, async (req, res) => {
 });
 
 
-app.post(`/api/makeInquiry`, (req, res) => {
+app.post(`/api/makeInquiry`, async (req, res) => {
     const instance = new Inquiry()
+    const date = new Date()
     console.log(req.body)
-    instance.message = req.body.message
-    instance.listingId =req.body.listingId
-    instance.userId = req.body.userId
-    instance.save()
-    res.send(201)
+    instance.message = req.body.message;
+    instance.listingId =req.body.listingId;
+    instance.userId = req.body.userId;
+    instance.fromOwner = req.body.fromOwner;
+    instance.createdAt = date;
+    instance.save();
+    const listing = await Listing.findById(req.body.listingId);
+    client.publish('sendInquiry', JSON.stringify({
+        type: 'sendInquiry',
+        listingID: req.body.listingId,
+        senderID: req.body.userId,
+        recieverID: listing.userId,
+        message: req.body.message,
+        createdAt: date,
+        fromOwner: req.body.fromOwner
+    }));
+    res.send(201);
 });
 
-app.get(`/api/getInquiries`, async (req, res) => {
-    //console.log("Trying to get Inquiries : "+ req.query.listingId)
-    const inquiries = await Inquiry.find({listingId: req.query.listingId})
 
-    res.send({
-        success: true,
-        inquiries: inquiries,
-        errorCode: 200
+app.get(`/api/getInquiriesByUserID`, async (req, res) => {
+    //console.log("Trying to get Inquiries : "+ req.query.listingId)
+    const listings = await Listing.find({userId: req.query.userId});
+    Inquiry.find({listingId: listings.map((listing) => {return listing._id})})
+    .populate('listingId')
+    .exec((error, inquiries) => {
+        console.log(error)
+        res.send({
+            success: true,
+            inquiries: inquiries,
+            errorCode: 200
+        });
     });
 });
+
 
 app.get(`*`, (req, res) => {
     res.send({
@@ -152,7 +138,5 @@ app.get(`*`, (req, res) => {
         errorCode: 404
     });
 });
-
-
 
 app.listen(4000, () => {console.log('Server running on 4000')})

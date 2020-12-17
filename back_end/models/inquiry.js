@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
    message: String,
    userId: String,
-   listingId: String,
+   listingId: {type: mongoose.Schema.Types.ObjectId, ref: 'Listings'},
+   createdAt: Date, 
+   fromOwner: Boolean
   });
 
   const Inquiry = mongoose.model('Inquiries', schema);

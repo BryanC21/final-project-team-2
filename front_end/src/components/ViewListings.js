@@ -10,6 +10,8 @@ const ViewListings = (props) => {
   const dispatch = useDispatch();
   const listings = useSelector((state) => state.listing.listings);
   const userId = useSelector((state) => state.user.userId);
+
+  //this state is to forceupdate the listing when client recieves a update listing message from WS
   const [refreshListing, setRefreshListing] = useState(false); 
   //console.log(listings);
   useEffect(() => {
@@ -31,8 +33,6 @@ const ViewListings = (props) => {
         console.log(error);
       });
   }, [refreshListing]);
-
-  console.log(refreshListing)
 
   const createListingsElements = (listing) => {
     return <Listing listing={listing} userMode={props.userMode} />;

@@ -39,9 +39,14 @@ const ListingCreationForm = () => {
       })
       .then(function (response) {
         console.log(response);
+        dispatch(setDescription(''))
+        dispatch(setType(''))
+        dispatch(setPrice(''))
+        dispatch(setTitle(''))
       })
       .catch(function (error) {
         console.log(error);
+        alert('Error creating listing')
       });
     axios
       .get(`/api/viewListings?userId=${userId}`)
