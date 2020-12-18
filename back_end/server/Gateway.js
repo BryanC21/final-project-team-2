@@ -19,16 +19,8 @@ apiProxy.on('error', (err, req, res)=>{
 
 wsProxy.on('error', (err, req, socket) =>{
     console.log(err);
-    console.log('ws failed')
+    console.log('ws failed');
     socket.end();
-});
-
-const apiServerHost = process.env.APISERVER_HOST || 'http://localhost:5000';
-app.all('/*', (req, res) => {
-    const options = {
-        target: apiServerHost,
-    }
-    apiProxy.web(req, res, options);
 });
 
 const webSocketServerHost = process.env.WEBSOCKET_HOST || 'http://localhost:8080/websocket';
@@ -38,13 +30,24 @@ app.all('/websocket*',(req, res) => {
     const options = {
         target: webSocketServerHost,
     }
-    apiProxy.web(req,res,options)
+    apiProxy.web(req,res,options);
+});
+
+const apiServerHost = process.env.APISERVER_HOST || 'http://localhost:5000';
+console.log(`ApiServer end Proxies to : ${apiServerHost}`);
+app.all('/*', (req, res) => {
+    console.log("ApiServer called");
+    const options = {
+        target: apiServerHost,
+    }
+    apiProxy.web(req, res, options);
 });
 
 appServer.on('upgrade',(req,socket,head) => {
     console.log('upgrade ws here');
     wsProxy.ws(req,socket,head);
-})
+});
+
 appServer.listen(port);
 console.log(`Gateway started ${port}`);
 //app.listen(port,() => console.log(`proxy listening to ${port}`));
