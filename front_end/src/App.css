@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.Chat-container {
+  border: 1px solid black;
+  padding: 16px;
+  margin: 16px;
+}

@@ -1,0 +1,38 @@
+*** note: may need to include sudo before every command
+    also run these commands in the root folder ***
+
+*** working- websocket container, backend api server, need to npm start in terminal ***
+*** in progress- figuring out front end ***
+
+
+*** front end (takes care of npm start) *** --- WIP
+docker build -f ./docker_files/front_end.Dockerfile -t front_end --no-cache .
+docker run -t -d -p 3000:4000 front_end
+
+*** back end (takes care of node apiserver) *** --- works
+docker build -f ./docker_files/back_end.Dockerfile -t back_end --no-cache .
+docker run -t -d -p 4000:4000 back_end
+
+*** websocket (takes care of node websocketserver) --- works
+docker build -f ./docker_files/websocket.Dockerfile -t websocket --no-cache .
+docker run -t -d -p 8080:8080 websocket
+
+*** to stop container ***
+docker container stop <container id>
+
+
+*** other useful commands ***
+** show all containers (processes running and stopped)
+docker ps -a 
+
+** remove stopped container, add -f arg to force it to stop and remove **
+docker rm <container id>
+
+** show docker images **
+docker image ls
+
+** remove image **
+docker rmi <image id>
+
+** when you edit docker files, should remove old images and rerun the build and run stuff **
+** also remove old containers **
