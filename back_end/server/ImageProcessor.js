@@ -78,13 +78,13 @@ consumer.on('message', (filename) => {
         //console.log(err);
     });
 
-
-    fs.unlink(imageName, (err) => {
+    //causes problems so was removed
+    /*fs.unlink(imageName, (err) => {
     if (err) {
     }else{
         console.log('Temp image deleted');
     }
-    })
+    })*/
 
 });
 
