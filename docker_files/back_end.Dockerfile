@@ -9,11 +9,10 @@ COPY ./back_end/models /main/models
 COPY ./back_end/package-lock.json /main
 COPY ./back_end/package.json /main
 
-RUN npm install
+RUN npm install --silent
 
 # port we are listening to
-EXPOSE 4000
+EXPOSE 5000 27017
 
 # start index
-# run node server/ApiServer.js
-CMD node server/ApiServer.js
+CMD ["node", "server/ApiServer.js"]
