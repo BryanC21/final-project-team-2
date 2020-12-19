@@ -15,6 +15,7 @@ To run: (we did not get docker fully running)
   * node ImageProcessor.js
   * node WebSocketServer.js
 * In front_end
+  * npm i
   * npm start
 
 Things to know:
