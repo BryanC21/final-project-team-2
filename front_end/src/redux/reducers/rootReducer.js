@@ -4,7 +4,7 @@ import inquiryReducer from './inquiryReducer';
 import userReducer from './userReducer'
 
 export default combineReducers({
-    listingReducer,
-    inquiryReducer,
-    userReducer
+    listing: listingReducer,
+    inquiry: inquiryReducer,
+    user: userReducer
 });

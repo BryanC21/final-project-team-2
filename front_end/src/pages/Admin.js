@@ -1,18 +1,22 @@
 // todo
 import React from 'react';
-
 import ViewListings from '../components/ViewListings';
 import ListingCreationForm from '../components/ListingCreationForm';
-import Inquiries from '../components/Inquiries';
+import Chats from '../components/Chats';
+
+
+
 
 const Admin = () => {
     return (
-        <div>
-            <h1>Admin</h1>
-            <ListingCreationForm />
-            <Inquiries />
-            <ViewListings />
-        </div>
+      <div>
+        <center>
+          <h1>Admin</h1>
+        </center>
+        <ListingCreationForm />
+        <ViewListings userMode={false} />
+        <Chats />
+      </div>
     );
 };
 

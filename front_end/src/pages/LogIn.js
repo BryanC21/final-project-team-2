@@ -4,17 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import { Redirect } from 'react-router-dom';
 
-//page for Signup at /Signup
-const SignUp = ({ history }) => {
+const LogIn = ({ history }) => {
   const dispatch = useDispatch();
   const emailRef = useRef();
   const passwordRef = useRef();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  //   console.log(isLoggedIn);
   if (!isLoggedIn) {
     return (
       <div>
         <center>
-          <h1>Sign Up</h1>
+          <h1>Login</h1>
           <table>
             <tbody>
               <tr>
@@ -42,35 +42,44 @@ const SignUp = ({ history }) => {
                         emailRef.current.value.match(/@/) &&
                         passwordRef.current.value.length > 4
                       ) {
-                        const tempId = (
-                          Date.now().toString(35) +
-                          Math.random().toString(36).substring(2)
-                        ).substring(7, 15);
-                        console.log(tempId);
-                        await fetch('/user', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          mode: 'cors',
-                          body: JSON.stringify({
-                            email: emailRef.current.value,
-                            password: passwordRef.current.value,
-                            userId: tempId,
-                            isLoggedIn: true,
-                          }),
-                        });
-                        //after signing up with valid email and password sends user back to homepage
-                        dispatch(setUser(emailRef.current.value, true, tempId));
-                        Cookies.set('userEmail', emailRef.current.value);
-                        Cookies.set('isAdmin', true);
-                        Cookies.set('userId', tempId);
-                        Cookies.set('isLoggedIn', true);
-                        history.push('/');
+                        const response = await fetch(
+                          '/user/login',
+                          {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            mode: 'cors',
+                            body: JSON.stringify({
+                              email: emailRef.current.value,
+                              password: passwordRef.current.value,
+                            }),
+                          }
+                        );
+                        if (response.ok) {
+                          const parsedRes = await response.json();
+                          console.log(parsedRes);
+                          //after signing up with valid email and password sends user back to homepage
+                          dispatch(
+                            setUser(
+                              parsedRes.email,
+                              parsedRes.isAdmin,
+                              parsedRes.userId,
+                              true
+                            )
+                          );
+                          Cookies.set('userEmail', parsedRes.email);
+                          Cookies.set('isAdmin', parsedRes.isAdmin);
+                          Cookies.set('userId', parsedRes.userId);
+                          Cookies.set('isLoggedIn', true);
+                          history.push('/');
+                        } else {
+                          alert('Wrong login credentials');
+                        }
                       } else {
                         alert('Something is wrong');
                       }
                     }}
                   >
-                    Submit
+                    Sign In
                   </button>
                 </th>
               </tr>
@@ -84,4 +93,4 @@ const SignUp = ({ history }) => {
   }
 };
 
-export default SignUp;
+export default LogIn;
