@@ -15,5 +15,4 @@ RUN npm install --silent
 EXPOSE 8080
 
 # start index
-# run node server/ApiServer.js
-CMD node server/WebsocketServer.js
+CMD ["node", "server/WebsocketServer.js"]

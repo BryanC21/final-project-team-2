@@ -12,8 +12,7 @@ COPY ./back_end/package.json /main
 RUN npm install --silent
 
 # port we are listening to
-EXPOSE 5000
+EXPOSE 5000 27017
 
 # start index
-# run node server/ApiServer.js
-CMD node server/ApiServer.js
+CMD ["node", "server/ApiServer.js"]

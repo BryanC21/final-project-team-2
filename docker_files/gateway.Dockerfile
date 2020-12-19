@@ -12,7 +12,7 @@ COPY ./back_end/package.json /main
 RUN npm install --silent
 
 # port we are listening to
-EXPOSE 4000 
+EXPOSE 4000
 
 # start gateway
-CMD node server/Gateway.js
+CMD ["node", "server/Gateway.js"]

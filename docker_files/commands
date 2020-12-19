@@ -2,26 +2,28 @@
     also run these commands in the root folder ***
 
 *** working- websocket container, backend api server, need to npm start, node gateway in terminal ***
-*** in progress- figuring out front end ***
+*** in progres: all can be in container, not getting 500 error, but it isn't able to connect to mongodb cluster ***
 
 
 *** front end (takes care of npm start) *** --- WIP
-docker build -f ./docker_files/front_end.Dockerfile -t front_end --no-cache .
-docker run -t -d -p 3000:3000 front_end
+sudo docker build -f ./docker_files/front_end.Dockerfile -t front_end --no-cache .
+sudo docker run -t -d -p 3000:3000 --network=667final front_end
 
 *** back end (takes care of node apiserver) *** --- works
-docker build -f ./docker_files/back_end.Dockerfile -t back_end --no-cache .
-docker run -t -d -p 5000:5000 back_end
+sudo docker build -f ./docker_files/back_end.Dockerfile -t back_end --no-cache .
+sudo docker run -t -d -p 5000:5000 --network=667final back_end
 
 *** websocket (takes care of node websocketserver) *** --- works
-docker build -f ./docker_files/websocket.Dockerfile -t websocket --no-cache .
-docker run -t -d -p 8080:8080 websocket
+sudo docker build -f ./docker_files/websocket.Dockerfile -t websocket --no-cache .
+sudo docker run -t -d -p 8080:8080 --network=667final websocket
 
 *** gateway (takes care of node gateway) *** --- WIP
-docker build -f ./docker_files/gateway.Dockerfile -t gateway --no-cache .
-docker run -t -d -p 4000:4000 gateway
+sudo docker build -f ./docker_files/gateway.Dockerfile -t gateway --no-cache .
+sudo docker run -t -d -p 4000:4000 --network=667final gateway
 
 
+*** mongo needed ? ***
+sudo docker run --name mongodb -d mongo:3.6.21-xenial
 
 *** to stop container ***
 docker container stop <container id>
@@ -41,6 +43,10 @@ docker rmi <image id>
 
 *** removed exited container ***
 docker rm $(docker ps -q -f status=exited)
+
+*** docker network ***
+docker network create <name>
+docker network ls
 
 ** when you edit docker files, should remove old images and rerun the build and run stuff **
 ** also remove old containers **

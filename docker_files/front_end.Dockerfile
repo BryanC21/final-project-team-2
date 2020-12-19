@@ -3,7 +3,7 @@ FROM node:10-alpine
 # root dir
 WORKDIR /main 
 
-ENV PATH /main/node_modules/.bin:$PATH
+# ENV PATH /main/node_modules/.bin:$PATH
 
 # copies contents of front end
 COPY ./front_end/public /main/public
@@ -19,5 +19,5 @@ RUN npm run build --silent
 EXPOSE 3000
 
 # start index
-# CMD npm start
-CMD node server/Frontend.js
+# CMD ["npm", "start"]
+CMD ["node", "server/Frontend.js"]
