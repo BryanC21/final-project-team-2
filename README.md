@@ -23,4 +23,4 @@ Things to know:
 * Login as admin is email: admin@admin.com, password: admin
 * Image upload only works with PNG files (forgot jpg existed)
 * Make sure to click upload on image first before click submit listing
-* Need to refresh to see inqiries
+* Inquiries and Listings populate instantly locally, may Need to refresh to see inquiries through the link posted.
