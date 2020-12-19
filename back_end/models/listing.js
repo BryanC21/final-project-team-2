@@ -6,7 +6,8 @@ const schema = new mongoose.Schema({
    type: {type: String, required: true},
    price: {type: String, required: true},
    title: {type: String, required: true},
-   userId: {type: String, required: true}
+   userId: {type: String, required: true},
+   imageId: {type: String, required: false}
   });
 
   const Listing = mongoose.model('Listings', schema);

@@ -12,7 +12,7 @@ COPY ./back_end/package.json /main
 RUN npm install --silent
 
 # port we are listening to
-EXPOSE 8080
+EXPOSE 4000
 
-# start index
-CMD ["node", "server/WebsocketServer.js"]
+# start gateway
+CMD ["node", "server/Gateway.js"]

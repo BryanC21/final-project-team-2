@@ -19,6 +19,30 @@ const ListingCreationForm = () => {
   const price = useSelector((state) => state.listing.price);
   const title = useSelector((state) => state.listing.title);
   const userId = useSelector((state) => state.user.userId);
+
+  const [imagedata, setImageData] = React.useState();
+  const [imagenum, setImageNum] = React.useState(0);
+
+  const uploadImage = () => {
+    const formData = new FormData();
+
+    const lastDot = imagedata.name.lastIndexOf('.');
+    const ext = imagedata.name.substring(lastDot + 1);
+    const imageNumber = Math.floor(Math.random() * 100);
+    setImageNum(imageNumber);
+    console.log("from upload"+imageNumber);
+    const newFileName = userId+imageNumber+"."+ext
+
+    // Update the formData object 
+    formData.append(
+      'file',
+      imagedata,
+      newFileName
+    );
+    axios.post('upload', formData);
+  };
+
+
   const [imgData, setData] = React.useState();
 
   const imageUpload = () => {
@@ -29,6 +53,8 @@ const ListingCreationForm = () => {
   };
 
   const handleListingSubmit = async () => {
+    let imageId = userId+imagenum;
+    console.log("From react"+imagenum);
     await axios
       .post('/api/createListing', {
         description: description,
@@ -36,6 +62,7 @@ const ListingCreationForm = () => {
         price: price,
         title: title,
         userId: userId,
+        imageId: imageId
       })
       .then(function (response) {
         console.log(response);
@@ -105,13 +132,8 @@ const ListingCreationForm = () => {
           <tr>
             <th>Upload an image:</th>
             <th>
-              <input type='file' onChange={(e) => setData(e.target.files[0])} />
-              <button
-                onClick={
-                  console.log('send to kafka')
-                  // imageUpload
-                }
-              >
+              <input type='file' onChange={(e) => setImageData(e.target.files[0])} />
+              <button onClick={uploadImage}>
                 Upload
               </button>
             </th>

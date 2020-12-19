@@ -7,6 +7,9 @@ const Listing = require('../models/listing')
 const express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const multer = require('multer')
+const KafkaProducer = require('../kafka/KafkaProducer.js');
+const producer = new KafkaProducer('myTopic');
 const client = redis.createClient({host: 'redis-13037.c60.us-west-1-2.ec2.cloud.redislabs.com', port: 13037})
 
 client.auth('GHSahP3jPWAUKoW459YE71UjkMzhRz6O', function(err, response){
@@ -36,6 +39,26 @@ app.post('/user', (req, res) => {
     res.send(201)
 })
 
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '././uploads')
+    },
+    filename: function (req, file, cb) {
+      console.log(file);
+      cb(null, file.originalname);
+    }
+})
+  
+var upload = multer({ storage: storage })
+
+app.post('/upload', upload.single('file'), (req, res, next) => {
+    producer.connect(() => {
+        console.log('im in ');
+        producer.send(req.file.originalname);
+    });
+    res.send('Done!');
+});
+
 
 app.post('/user/login', async (req, res) => {
     const user = await User.find({email: req.body.email, password: req.body.password});
@@ -54,6 +77,7 @@ app.post(`/api/createListing`, (req, res) => {
     instance.price =req.body.price
     instance.userId = req.body.userId
     instance.type = req.body.type
+    instance.imageId = req.body.imageId
     instance.save((error, listing) => {
         if(error){
             res.send(400)
@@ -133,8 +157,8 @@ app.get(`/api/getInquiriesByUserID`, async (req, res) => {
 app.get(`*`, (req, res) => {
     res.send({
         success: false,
-        items: listings,
-        inquiries: inquiriesList,
+        //items: listings,
+        //inquiries: inquiriesList,
         errorCode: 404
     });
 });

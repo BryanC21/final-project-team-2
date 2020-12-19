@@ -6,11 +6,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setInquiry } from '../redux/actions/inquiryActions';
 
 const Listing = (props) => {
+  //const imageLink = "../uploads/500x500"+props.listing.imageId+".png";
+  //console.log("-------------------------"+imageLink);
+  /*try{
+    const img = require(imageLink);
+    console.log('found image');
+  } catch(err){
+    console.log(err);
+    console.log('processing image');
+  }*/
   const dispatch = useDispatch();
   const [stateInquiry, setStateInquiry] = React.useState('');
   //const test = useSelector(state => state.inquiryReducer.inquiries);
   const userId = useSelector((state) => state.user.userId);
   //console.log(props);
+
+  const [imageURL, setImageURL] = React.useState("https://csc667group2.s3.amazonaws.com/100x100"+props.listing.imageId+".png");
+  const [isBig, setBig] = React.useState(false);
+  console.log(imageURL);
+
+  const toggleSize = () => {
+    if(isBig){
+      setImageURL("https://csc667group2.s3.amazonaws.com/100x100"+props.listing.imageId+".png");
+      setBig(false);
+    } else {
+      setImageURL("https://csc667group2.s3.amazonaws.com/500x500"+props.listing.imageId+".png");
+      setBig(true);
+    }
+  }
 
   const handleDelete = () => {
     if (userId === props.listing.userId) {
@@ -42,13 +65,18 @@ const Listing = (props) => {
       })
       .catch(function (error) {
         console.log(error);
-      });
+      });//<img src={process.env.PUBLIC_URL + '/uploads/100x100'+props.listing.imageId+'.png'} alt="processing" />
   };
 
   return (
     <div>
       <table className='listing'>
         <tbody>
+          <tr>
+            <th>Image:</th>
+            <th><img src={imageURL} alt="processing"/></th>
+            <th><button onClick={toggleSize}>Toggle Image Size</button></th>
+          </tr>
           <tr>
             <th>Description:</th>
             <th>{props.listing.description}</th>
