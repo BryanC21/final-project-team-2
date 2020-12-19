@@ -9,7 +9,7 @@ COPY ./back_end/models /main/models
 COPY ./back_end/package-lock.json /main
 COPY ./back_end/package.json /main
 
-RUN npm install
+RUN npm install --silent
 
 # port we are listening to
 EXPOSE 8080
