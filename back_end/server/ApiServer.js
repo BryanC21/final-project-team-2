@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({extended:false }))
 app.use(cors());
 
 //connects mongose to account set up on mongodb 
-mongoose.connect('mongodb+srv://andres12:Clubhi!12@cluster0.dotkx.mongodb.net/FinalProj?retryWrites=true&w=majority', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://andres12:'pass goes here'@cluster0.dotkx.mongodb.net/FinalProj?retryWrites=true&w=majority', {useNewUrlParser: true});
 
 //sends info from signup page to /user
 app.post('/user', (req, res) => {
