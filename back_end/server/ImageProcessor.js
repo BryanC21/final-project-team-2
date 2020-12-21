@@ -9,8 +9,8 @@ const AWS = require('aws-sdk')
 
 
 const s3 = new AWS.S3({
-    accessKeyId: 'AKIAY6KWBNBN6DPUNANG',
-    secretAccessKey: "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",
+    accessKeyId: '',
+    secretAccessKey: "",
     Bucket: "csc667group2"
 })
 
