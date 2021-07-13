@@ -1,6 +1,3 @@
-# final-project-team-2
-final-project-team-2 created by GitHub Classroom
-
 #Web store 
 Allows users to sell their used items.
 
